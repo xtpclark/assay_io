@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assay — Your database is floundering. We find out why.</title>
+  <meta name="description" content="Assay illuminates what's hiding in the depths of your database infrastructure. Coming soon.">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --navy: #1B2D4F; --teal: #00BFA5; --light: #E8F4F2; --dark: #0D1B2E;
+    }
+    body { background: var(--dark); color: var(--light); font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; overflow-x: hidden; }
+
+    .hero { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; text-align: center; position: relative; }
+    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 60%, rgba(0,191,165,0.08) 0%, transparent 70%); pointer-events: none; }
+
+    .logo-mark { font-size: 0.85rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--teal); margin-bottom: 2rem; opacity: 0.8; }
+
+    .anglephant-wrap { position: relative; margin-bottom: 2.5rem; }
+    .anglephant-img { width: min(380px, 80vw); filter: drop-shadow(0 0 40px rgba(0,191,165,0.25)); animation: float 6s ease-in-out infinite; }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+
+    .glow-dot { position: absolute; top: 18%; left: 52%; width: 16px; height: 16px; background: var(--teal); border-radius: 50%; box-shadow: 0 0 20px 8px rgba(0,191,165,0.6); animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.6; transform:scale(1.4); } }
+
+    h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; line-height: 1.1; margin-bottom: 1rem; letter-spacing: -0.02em; }
+    h1 span { color: var(--teal); }
+
+    .sub { font-size: clamp(1rem, 2.5vw, 1.3rem); color: rgba(232,244,242,0.65); max-width: 520px; line-height: 1.6; margin-bottom: 2.5rem; }
+
+    .capture { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; margin-bottom: 1rem; }
+    .capture input { background: rgba(255,255,255,0.07); border: 1px solid rgba(0,191,165,0.3); border-radius: 8px; color: var(--light); font-size: 1rem; padding: 0.75rem 1.25rem; width: min(300px, 80vw); outline: none; transition: border-color 0.2s; }
+    .capture input:focus { border-color: var(--teal); }
+    .capture input::placeholder { color: rgba(232,244,242,0.35); }
+    .capture button { background: var(--teal); border: none; border-radius: 8px; color: var(--dark); cursor: pointer; font-size: 1rem; font-weight: 700; padding: 0.75rem 1.5rem; transition: background 0.2s, transform 0.1s; }
+    .capture button:hover { background: #00D4B8; }
+    .capture button:active { transform: scale(0.97); }
+    .capture-note { font-size: 0.8rem; color: rgba(232,244,242,0.35); }
+    .thankyou { display: none; color: var(--teal); font-weight: 600; font-size: 1rem; margin-top: 1rem; }
+
+    .divider { width: 60px; height: 2px; background: linear-gradient(90deg, transparent, var(--teal), transparent); margin: 4rem auto; }
+
+    .grimoire { padding: 0 2rem 6rem; max-width: 1100px; margin: 0 auto; }
+    .grimoire-title { text-align: center; margin-bottom: 0.5rem; font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; }
+    .grimoire-sub { text-align: center; color: rgba(232,244,242,0.5); margin-bottom: 3rem; font-size: 0.95rem; }
+
+    .sin-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1.5rem; }
+    .sin-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(0,191,165,0.1); border-radius: 12px; padding: 1.25rem 1rem; text-align: center; transition: border-color 0.2s, transform 0.2s, background 0.2s; cursor: default; }
+    .sin-card:hover { border-color: rgba(0,191,165,0.4); background: rgba(0,191,165,0.06); transform: translateY(-4px); }
+    .sin-card img { width: 100%; max-width: 120px; height: 120px; object-fit: contain; margin-bottom: 0.75rem; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4)); }
+    .sin-name { font-size: 0.85rem; font-weight: 700; color: var(--teal); margin-bottom: 0.25rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .sin-tagline { font-size: 0.75rem; color: rgba(232,244,242,0.5); line-height: 1.4; font-style: italic; }
+
+    footer { text-align: center; padding: 2rem; color: rgba(232,244,242,0.25); font-size: 0.8rem; border-top: 1px solid rgba(255,255,255,0.05); }
+    footer a { color: var(--teal); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="logo-mark">Assay</div>
+  <div class="anglephant-wrap">
+    <img class="anglephant-img" src="assets/images/anglephant.png" alt="Anglephant — the Assay mascot">
+    <div class="glow-dot"></div>
+  </div>
+  <h1>Your database is <span>floundering.</span><br>We find out why.</h1>
+  <p class="sub">Assay illuminates what's hiding in the depths of your database infrastructure — the issues you didn't know you had, the patterns you couldn't see, the nightmares lurking in your cluster.</p>
+  <div class="capture">
+    <input type="email" id="email-input" placeholder="your@email.com" autocomplete="email">
+    <button onclick="submitEmail()">Notify me</button>
+  </div>
+  <div class="capture-note">No spam. Just a heads up when we launch.</div>
+  <div class="thankyou" id="thankyou">🐘 You're on the list. We'll be in touch.</div>
+</section>
+
+<div class="divider"></div>
+
+<section class="grimoire">
+  <h2 class="grimoire-title">The Assay Grimoire</h2>
+  <p class="grimoire-sub">A compendium of database horrors. Does your cluster have one?</p>
+  <div class="sin-grid">
+    <div class="sin-card"><img src="assets/images/sin_ghost2.png" alt="Ghost"><div class="sin-name">Ghost</div><div class="sin-tagline">"foreign key points to nothing. has for years."</div></div>
+    <div class="sin-card"><img src="assets/images/sin_bloat.png" alt="Bloat"><div class="sin-name">Bloat</div><div class="sin-tagline">"94% dead tuples. Your table is mostly ghost."</div></div>
+    <div class="sin-card"><img src="assets/images/sin_locks.png" alt="Locks"><div class="sin-name">Locks</div><div class="sin-tagline">"one long transaction. everyone waits."</div></div>
+    <div class="sin-card"><img src="assets/images/sin_no_backup.png" alt="No Backup"><div class="sin-name">No Backup</div><div class="sin-tagline">"LAST BACKUP: NEVER. On fire. Crying."</div></div>
+    <div class="sin-card"><img src="assets/images/sin_no_transaction.png" alt="No WHERE"><div class="sin-name">No WHERE</div><div class="sin-tagline">"No WHERE clause. No rollback. No survivors."</div></div>
+    <div class="sin-card"><img src="assets/images/sin_manual_failover.png" alt="Call Dave"><div class="sin-name">Call Dave</div><div class="sin-tagline">"Dave is asleep. Dave will always be asleep."</div></div>
+    <div class="sin-card"><img src="assets/images/sin_cartesian.png" alt="Cartesian"><div class="sin-name">Cartesian</div><div class="sin-tagline">"847,000,000 rows. They forgot the ON clause."</div></div>
+    <div class="sin-card"><img src="assets/images/sin_plaintext_cards.png" alt="Plain Text PII"><div class="sin-name">Plain Text PII</div><div class="sin-tagline">"PCI ❌. Trenchcoat guy is very happy."</div></div>
+    <div class="sin-card"><img src="assets/images/sin_never_upgraded.png" alt="Never Upgraded"><div class="sin-name">Never Upgraded</div><div class="sin-tagline">"PostgreSQL 9.2. EOL 2022. Still smug."</div></div>
+    <div class="sin-card"><img src="assets/images/methaphant.png" alt="Methaphant"><div class="sin-name">Methaphant</div><div class="sin-tagline">"Awake for 6 days. Cannot stop. Will not stop."</div></div>
+    <div class="sin-card"><img src="assets/images/sin_split_brain.png" alt="Split Brain"><div class="sin-name">Split Brain</div><div class="sin-tagline">"Both halves think they're primary. Both are wrong."</div></div>
+    <div class="sin-card"><img src="assets/images/sin_public_schema.png" alt="Grant All"><div class="sin-name">GRANT ALL</div><div class="sin-tagline">"Binoculars. On the roof. She's kneeling."</div></div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Assay &nbsp;·&nbsp; <a href="https://assayhq.ai">assayhq.ai</a> &nbsp;·&nbsp; Built in the depths 🐘</p>
+</footer>
+
+<script>
+  function submitEmail() {
+    const input = document.getElementById('email-input');
+    const thanks = document.getElementById('thankyou');
+    const email = input.value.trim();
+    if (!email || !email.includes('@')) {
+      input.style.borderColor = '#ff6b6b';
+      setTimeout(() => input.style.borderColor = '', 1000);
+      return;
+    }
+    console.log('Email captured:', email);
+    input.parentElement.style.display = 'none';
+    thanks.style.display = 'block';
+  }
+  document.getElementById('email-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') submitEmail();
+  });
+</script>
+
+</body>
+</html>
